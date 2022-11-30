@@ -15,7 +15,7 @@ namespace Demo.Controllers.Api
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok();
+            return Ok(true);
         }
     }
 }
