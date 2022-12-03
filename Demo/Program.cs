@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddScoped<IMemberRepository,MemberRepository>();
+builder.Services.AddDependencyInjection();
 
 
 
