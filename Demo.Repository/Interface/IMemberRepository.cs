@@ -9,4 +9,11 @@ public interface IMemberRepository
     /// </summary>
     /// <returns></returns>
     Task<IEnumerable<EmployeesDataModel>> GetAllAsync();
+
+    /// <summary>
+    /// 用 Id 取得特定員工資料
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<EmployeesDataModel> GetAsync(int id);
 }

@@ -9,21 +9,32 @@ namespace Demo.Service.Implement;
 public class MemberService : IMemberService
 {
     private readonly IMemberRepository _memberRepository;
-    private readonly IMapper _mapper;
 
-    public MemberService(IMemberRepository memberRepository, 
-                         IMapper mapper)
+    public MemberService(IMemberRepository memberRepository)
     {
         _memberRepository = memberRepository;
-        _mapper = mapper;
     }
 
-    public async Task<IEnumerable<MemberDto>> GetMemberInfoAsync()
+    public async Task<IEnumerable<EmployeesDataModel>> GetAllMemberInfoAsync()
     {
         var memberData =await _memberRepository.GetAllAsync();
-
-        var result = _mapper.Map<IEnumerable<MemberDto>>(memberData);
         
-        return result;
+        return memberData;
+    }
+
+    public async Task<EmployeesDataModel> GetMemberInfoAsync(int id)
+    {
+        if (id <= 0)
+        {
+            return null;
+        }
+        
+        var memberData = await _memberRepository.GetAsync(id);
+        if (memberData is null || memberData.EmployeeId == 0)
+        {
+            return null;
+        }
+        
+        return memberData;
     }
 }

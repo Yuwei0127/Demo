@@ -9,5 +9,12 @@ public interface IMemberService
     /// 取得所有員工資料
     /// </summary>
     /// <returns></returns>
-    Task<IEnumerable<MemberDto>> GetMemberInfoAsync();
+    Task<IEnumerable<EmployeesDataModel>> GetAllMemberInfoAsync();
+
+    /// <summary>
+    /// 用 Id 取的特定員工資料
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<EmployeesDataModel> GetMemberInfoAsync(int id);
 }

@@ -20,4 +20,18 @@ public class MemberRepository:IMemberRepository
             return result;
         }
     }
+    
+    public async Task<EmployeesDataModel> GetAsync(int id)
+    {
+        using (var conn = new SqlConnection(_connectString))
+        {
+            var result = await conn.QueryFirstAsync<EmployeesDataModel>($"select * from Employees where EmployeeID = {id}");
+
+            if (result is null)
+            {
+                return null;
+            }
+            return result;
+        }
+    }
 }

@@ -1,6 +1,8 @@
+using System.Reflection;
 using Demo.Controllers.Implement;
 using Demo.Repository.Implement;
 using Demo.Repository.Interface;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,19 +18,28 @@ builder.Services.AddSwaggerGen(options =>
     {
         Version = "v1",
         Title = "ToDo API",
-        Description = "在家練習用",
+        Description = "Demo",
         TermsOfService = new Uri("https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
         Contact = new OpenApiContact
         {
             Name = "Example Contact",
-            Url = new Uri("https://example.com/contact")
+            Url = new Uri("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
         },
         License = new OpenApiLicense
         {
             Name = "Example License",
-            Url = new Uri("https://example.com/license")
+            Url = new Uri("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
         }
     });
+    
+    // 依賴註釋來描述，不依賴 Xml 文件
+    options.EnableAnnotations();
+    
+    options.DocInclusionPredicate((_,apiDescription) => string.IsNullOrWhiteSpace(apiDescription.GroupName).Equals(false));
+    options.SwaggerGeneratorOptions.TagsSelector = apiDescription => new[]
+    {
+        apiDescription.GroupName
+    };
 });
 
 builder.Services.AddDependencyInjection();
@@ -45,10 +56,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseSwagger();
-app.UseSwaggerUI(options =>
+app.UseSwagger().UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    // options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    
+    options.SwaggerEndpoint($"v1/swagger.json","watch API 檔案");
+    
 });
 
 app.UseHttpsRedirection();
