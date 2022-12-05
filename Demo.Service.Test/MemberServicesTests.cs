@@ -42,12 +42,27 @@ public class MemberServicesTests : IClassFixture<TestsBase>
         var memberList = _fixture.Build<EmployeesDataModel>()
                                  .CreateMany(10);
         _memberRepository.GetAllAsync().Returns(memberList);
-        
+
         // Act
         var actual = sut.GetAllMemberInfoAsync();
         
         // Assert
         actual.Should().NotBeNull();
+    }
+    
+    [Fact]
+    public void GetAllMemberInfoAsync_無成員資訊_應回傳EmployeesDataModel空集合()
+    {
+        // Arrange
+        var sut = GetSystemUnderTest();
+        
+        _memberRepository.GetAllAsync().Returns(new List<EmployeesDataModel>());
+        
+        // Act
+        var actual = sut.GetAllMemberInfoAsync();
+        
+        // Assert
+        actual.Should().BeOfType<Task<IEnumerable<EmployeesDataModel>>>();
     }
 
     [Fact]

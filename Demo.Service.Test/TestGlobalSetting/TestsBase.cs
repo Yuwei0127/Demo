@@ -4,11 +4,11 @@ public class TestsBase : IDisposable
 {
     public TestsBase()
     {
-        // Do "global" initialization here; Called before every test method.
+        // 相當於 MSTest 的 [TestInitialize]
     }
 
     public void Dispose()
     {
-        // Do "global" teardown here; Called after every test method.
+        // 相當於 MSTest 的 [TestCleanup]
     }
 }
