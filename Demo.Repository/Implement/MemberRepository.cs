@@ -11,7 +11,8 @@ public class MemberRepository:IMemberRepository
     /// 連線字串
     /// </summary>
     private readonly string _connectString = 
-        @"Server=(LocalDB)\MSSQLLOCALDB;Initial Catalog=Northwind;User ID=sa;Password=sa;TrustServerCertificate=true;";
+        @"Server=127.0.0.1;Initial Catalog=Northwind;User ID=sa;Password=sa;TrustServerCertificate=true;";
+        // @"Server=(LocalDB)\MSSQLLOCALDB;Initial Catalog=Northwind;User ID=sa;Password=sa;TrustServerCertificate=true;";
     public async Task<IEnumerable<EmployeesDataModel>> GetAllAsync()
     {
         using (var conn = new SqlConnection(_connectString))

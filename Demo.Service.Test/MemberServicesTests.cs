@@ -25,7 +25,7 @@ public class MemberServicesTests : IClassFixture<TestsBase>
         _fixture = new Fixture();
     }
     
-    private MemberService CreateMemberService()
+    private MemberService GetSystemUnderTest()
     {
         return new MemberService(_memberRepository);
     }
@@ -37,7 +37,7 @@ public class MemberServicesTests : IClassFixture<TestsBase>
     public void GetAllMemberInfoAsync_取得全部成員資訊_應回傳EmployeesDataModel集合()
     {
         // Arrange
-        var sut = CreateMemberService();
+        var sut = GetSystemUnderTest();
         
         var memberList = _fixture.Build<EmployeesDataModel>()
                                  .CreateMany(10);
@@ -51,23 +51,26 @@ public class MemberServicesTests : IClassFixture<TestsBase>
     }
 
     [Fact]
-    public void GetMemberInfoAsync_傳進來的Id等於零_應回傳Null()
+    public async void GetMemberInfoAsync_傳進來的Id等於零_應回傳Null()
     {
         // Arrange
-        var sut = CreateMemberService();
+        var sut = GetSystemUnderTest();
+        var id = 0;
         
         // Act
-        var actual = sut.GetMemberInfoAsync(0);
+        // var actual = sut.GetMemberInfoAsync(id);
+        var act = () => sut.GetMemberInfoAsync(id);
         
         // Assert
-        actual.Should().NotBeNull();
+        var exception = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(act);
+        exception.Message.Should().Contain("小於等於 0");
     }
 
     [Fact]
     public void GetMemberInfoAsync_傳進來的Id大於零_應回傳EmployeesDataModel()
     {
         // Arrange
-        var sut = CreateMemberService();
+        var sut = GetSystemUnderTest();
         _memberRepository.GetAsync(1).Returns(new EmployeesDataModel());
         
         // Act

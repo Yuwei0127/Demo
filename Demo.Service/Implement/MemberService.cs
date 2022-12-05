@@ -26,13 +26,14 @@ public class MemberService : IMemberService
     {
         if (id <= 0)
         {
-            return null;
+            throw new ArgumentOutOfRangeException("id 小於等於 0",nameof(id));
         }
         
         var memberData = await _memberRepository.GetAsync(id);
-        if (memberData is null || memberData.EmployeeId == 0)
+
+        if (memberData.City == "台北市")
         {
-            return null;
+            return new EmployeesDataModel();
         }
         
         return memberData;
